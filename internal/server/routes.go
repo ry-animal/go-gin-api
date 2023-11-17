@@ -1,15 +1,14 @@
 package server
 
 import (
-	"net/http"
-
 	"github.com/gin-gonic/gin"
+	"net/http"
 )
 
 func (s *Server) RegisterRoutes() http.Handler {
 	r := gin.Default()
-
 	r.GET("/", s.helloWorldHandler)
+	r.GET("/health", s.healthHandler)
 
 	return r
 }
@@ -19,4 +18,8 @@ func (s *Server) helloWorldHandler(c *gin.Context) {
 	resp["message"] = "Hello World"
 
 	c.JSON(http.StatusOK, resp)
+}
+
+func (s *Server) healthHandler(c *gin.Context) {
+	c.JSON(http.StatusOK, s.db.Health())
 }

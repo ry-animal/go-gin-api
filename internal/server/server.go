@@ -3,19 +3,24 @@ package server
 import (
 	"fmt"
 	"net/http"
+	"os"
+	"strconv"
 	"time"
-)
 
-var port = 8080
+	_ "github.com/joho/godotenv/autoload"
+	"go-gin-api/internal/database"
+)
 
 type Server struct {
 	port int
+	db   database.Service
 }
 
 func NewServer() *http.Server {
-
+	port, _ := strconv.Atoi(os.Getenv("PORT"))
 	NewServer := &Server{
 		port: port,
+		db:   database.New(),
 	}
 
 	// Declare Server config
